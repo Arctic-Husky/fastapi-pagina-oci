@@ -4,6 +4,7 @@ import mimetypes
 from datetime import datetime
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
+from fastapi.middleware.cors import CORSMiddleware
 
 def get_target_directory():
     """
@@ -21,6 +22,16 @@ def get_target_directory():
 target_directory = get_target_directory()
 
 app = FastAPI()
+
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/files")
 def list_files():
